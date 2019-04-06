@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1b1a1b"
+    >
+
+    <FrameLayout
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.github.glomadrian.grav.GravView
+            android:id="@+id/grav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:animationGenerators="@array/FalconAnimations"
+            app:array_colors="@array/falcon"
+            app:colorGenerator="com.github.glomadrian.grav.generator.paint.ArrayColorGenerator"
+            app:gravGenerator="com.github.glomadrian.grav.generator.grav.RectangleGenerator"
+            app:pointGenerator="com.github.glomadrian.grav.generator.point.RegularPointGenerator"
+            app:rectangle_height="2dp"
+            app:rectangle_width="15dp"
+            app:regular_cell_size="100"
+            app:regular_variance="200"
+            app:shake_direction="vertical"
+            app:shake_variance="5dp"
+            app:side_to_side_direction="rightToLeft"
+            app:side_to_side_max_duration="800"
+            app:side_to_side_min_duration="400" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="150dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="20dp"
+            app:srcCompat="@drawable/millenium_falcon" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:textSize="26dp"
+            android:text="Hello World, My name is Harel"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center" />
+
+    </FrameLayout>
+
+</RelativeLayout>
