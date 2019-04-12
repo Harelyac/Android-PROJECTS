@@ -13,7 +13,7 @@ class ChatBox {
     public static String reciever;
 
 
-    private ChatBox(int color,
+    public ChatBox(int color,
                     String text,
                     String sender,
                     String reciever) {
