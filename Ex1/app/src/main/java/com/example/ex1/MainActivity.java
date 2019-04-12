@@ -56,15 +56,15 @@ public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUt
         this.adapter.submitList(this.chatBoxes);
     }
 
-   /* @Override
+/* @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString("my_name", textView.getText().toString());
         super.onSaveInstanceState(outState); // calling override method from parent for additional implementation
     }
-*/
-   /* @Override
+
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         textView.setText(savedInstanceState.getString("my_name"));
-        super.onRestoreInstanceState(savedInstanceState);
-    }*/
+        super.onRestoreInstanceState(savedInstanceState);*/
+
 }
