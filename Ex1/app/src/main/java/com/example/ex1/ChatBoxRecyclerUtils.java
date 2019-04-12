@@ -1,4 +1,4 @@
-package com.example.ex2;
+package com.example.ex1;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
