@@ -1,50 +1,70 @@
 package com.example.ex1;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Objects;
 
 
-class ChatBox {
-
-    public static int color;
-    public static String text;
-    public static String sender;
-    public static String reciever;
+class ChatBox implements Parcelable {
+    private String text;
 
 
-    public ChatBox(int color,
-                    String text,
-                    String sender,
-                    String reciever) {
+    public ChatBox(String text) {
 
-        this.color = color;
         this.text = text;
-        this.sender = sender;
-        this.reciever = reciever;
+
     }
 
-    static List<ChatBox> getAll() {
-        ArrayList<ChatBox> all = new ArrayList<>();
-        all.add(new ChatBox(1, "simple_text", "harel", reciever = "harel"));
-        all.add(new ChatBox(1, "simple_text", "harel", reciever = "harel"));
-        all.add(new ChatBox(0, "simple_text", "harel", reciever = "harel"));
-        all.add(new ChatBox(1, "simple_text", "harel", reciever = "harel"));
-        return all;
+    private ChatBox(Parcel in) {
+        text = in.readString();
+    }
+
+
+    public String getText() {
+        return text;
+    }
+
+
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ChatBox chatBox = (ChatBox) o;
-        return color == chatBox.color &&
-                sender.equals(chatBox.sender) &&
-                reciever.equals(chatBox.reciever);
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(text);
+    }
+
+    public static final Parcelable.Creator<ChatBox> CREATOR = new Parcelable.Creator<ChatBox>() {
+        @Override
+        public ChatBox createFromParcel(Parcel in) {
+            return new ChatBox(in);
+        }
+
+        @Override
+        public ChatBox[] newArray(int size) {
+            return new ChatBox[size];
+        }
+    };
+
+
+    @Override
+    public boolean equals( Object obj) {
+        if(this == obj) return true;
+        if (obj == null || this.getClass() != obj.getClass() ) return false;
+        ChatBox chatBox_obj = (ChatBox)obj;
+        return Objects.equals(this.getText(),chatBox_obj.getText());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(color, sender, reciever);
+        return Objects.hash(text);
     }
 }
+

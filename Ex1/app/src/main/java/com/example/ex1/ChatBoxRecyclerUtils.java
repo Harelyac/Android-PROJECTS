@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -20,13 +19,13 @@ public class ChatBoxRecyclerUtils {
             extends DiffUtil.ItemCallback<ChatBox> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull ChatBox p1, @NonNull ChatBox p2) {
-            return p1.text.equals(p2.text);
+        public boolean areItemsTheSame(@NonNull ChatBox cb1, @NonNull ChatBox cb2) {
+            return cb1.equals(cb2);
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull ChatBox p1, @NonNull ChatBox p2) {
-            return p1.equals(p2);
+        public boolean areContentsTheSame(@NonNull ChatBox cb1, @NonNull ChatBox cb2) {
+            return cb1.getText().equals(cb2.getText());
         }
     }
 
@@ -45,15 +44,15 @@ public class ChatBoxRecyclerUtils {
             super(new ChatBoxCallback());
         }
 
-        public ChatBoxClickCallback callback;
+        // public ChatBoxClickCallback callback;
 
         @NonNull @Override
         public ChatBoxHolder onCreateViewHolder(@NonNull ViewGroup parent, int itemType) {
             Context context = parent.getContext();
-            View itemView =
-                    LayoutInflater.from(context)
-                            .inflate(R.layout.chat_box_item, parent, false);
+            View itemView = LayoutInflater.from(context).inflate(R.layout.chat_box_item, parent, false);
             final ChatBoxHolder holder = new ChatBoxHolder(itemView);
+
+           /* // listener to view holder
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -61,22 +60,21 @@ public class ChatBoxRecyclerUtils {
                     if (callback != null)
                         callback.onChatBoxClick(ChatBox);
                 }
-            });
+            });*/
+
             return holder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull ChatBoxHolder ChatBoxHolder, int position) {
             ChatBox ChatBox = getItem(position);
-            ChatBoxHolder.text.setText(ChatBox.text);
+            ChatBoxHolder.text.setText(ChatBox.getText());
         }
     }
 
     // check!
 
-    static class ChatBoxHolder
-            extends RecyclerView.ViewHolder {
-
+    static class ChatBoxHolder extends RecyclerView.ViewHolder {
         public final TextView text;
         public ChatBoxHolder(@NonNull View itemView) {
             super(itemView);
