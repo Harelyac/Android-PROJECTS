@@ -1,14 +1,11 @@
 package com.example.ex1;
-
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.util.Objects;
 
 
 class ChatBox implements Parcelable {
     private String text;
-
 
     public ChatBox(String text) {
 
@@ -24,7 +21,6 @@ class ChatBox implements Parcelable {
     public String getText() {
         return text;
     }
-
 
 
     public void setText(String text) {

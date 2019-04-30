@@ -1,5 +1,4 @@
 package com.example.ex1;
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.recyclerview.extensions.ListAdapter;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 public class ChatBoxRecyclerUtils {
 
-    // check
     static class ChatBoxCallback
             extends DiffUtil.ItemCallback<ChatBox> {
 
@@ -30,15 +28,14 @@ public class ChatBoxRecyclerUtils {
     }
 
 
-
     interface ChatBoxClickCallback {
         void onChatBoxClick(ChatBox ChatBox);
     }
 
 
-    // check
-
     static class ChatBoxAdapter extends ListAdapter<ChatBox, ChatBoxHolder> {
+
+        public MainActivity callback;
 
         public ChatBoxAdapter() {
             super(new ChatBoxCallback());
@@ -52,15 +49,18 @@ public class ChatBoxRecyclerUtils {
             View itemView = LayoutInflater.from(context).inflate(R.layout.chat_box_item, parent, false);
             final ChatBoxHolder holder = new ChatBoxHolder(itemView);
 
-           /* // listener to view holder
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            // listener to view holder
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
+                public boolean onLongClick(View v) {
                     ChatBox ChatBox = getItem(holder.getAdapterPosition());
-                    if (callback != null)
+                    if (callback != null) {
                         callback.onChatBoxClick(ChatBox);
+                        return true;
+                    }
+                    return false;
                 }
-            });*/
+            });
 
             return holder;
         }
@@ -72,7 +72,6 @@ public class ChatBoxRecyclerUtils {
         }
     }
 
-    // check!
 
     static class ChatBoxHolder extends RecyclerView.ViewHolder {
         public final TextView text;
