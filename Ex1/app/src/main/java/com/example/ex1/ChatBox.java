@@ -1,31 +1,59 @@
 package com.example.ex1;
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 
-class ChatBox implements Parcelable {
-    private String text;
+public class ChatBox implements Parcelable {
+    private String content;
+    private int id;
+    private Date timestamp;
+    public static int idCounter = 0;
 
-    public ChatBox(String text) {
+    public ChatBox(String content, Timestamp timestamp) {
 
-        this.text = text;
+        this.content = content;
+        this.id = ++idCounter;
+        this.timestamp = timestamp;
+    }
+
+    public ChatBox(){
 
     }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+
 
     private ChatBox(Parcel in) {
-        text = in.readString();
+        content = in.readString();
     }
 
 
-    public String getText() {
-        return text;
-    }
-
-
-    public void setText(String text) {
-        this.text = text;
-    }
 
     @Override
     public int describeContents() {
@@ -34,7 +62,7 @@ class ChatBox implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(text);
+        dest.writeString(content);
     }
 
     public static final Parcelable.Creator<ChatBox> CREATOR = new Parcelable.Creator<ChatBox>() {
@@ -55,12 +83,12 @@ class ChatBox implements Parcelable {
         if(this == obj) return true;
         if (obj == null || this.getClass() != obj.getClass() ) return false;
         ChatBox chatBox_obj = (ChatBox)obj;
-        return Objects.equals(this.getText(),chatBox_obj.getText());
+        return Objects.equals(this.getContent(),chatBox_obj.getContent());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(text);
+        return Objects.hash(content);
     }
 }
 

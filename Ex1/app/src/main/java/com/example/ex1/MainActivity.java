@@ -13,9 +13,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-
+import java.sql.Timestamp;
 import android.widget.Toast;
+import java.util.Date;
+
 
 
 public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUtils.ChatBoxClickCallback {
@@ -31,6 +32,10 @@ public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // get time
+        Date date = new Date();
+        final Timestamp ts = new Timestamp(date.getTime());
+
 
         // Initializer
         adapter = new ChatBoxRecyclerUtils.ChatBoxAdapter();
@@ -43,10 +48,41 @@ public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUt
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
-        chatBoxes = app.storedInfo.chatBoxes; // retrieve saved chat boxes from sharedPreference
+
+        // only execute on first launch
+        if (savedInstanceState == null){
+            // read and retrieve data from remote db -> add it to runnable and run it via bg thread
+            RunnableWork runnable = new RunnableWork(app);
+            new Thread(runnable).start();
+            try {
+                Thread.sleep(3000); // freeze ui thread until bg thread complete its work
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            chatBoxes = runnable.chatBoxes;
+        }
+        // after change configuration for ex. change orientation
+        else{
+            // read from sp -> local db
+            RunnableWork1 runnable1 = new RunnableWork1(sp,app);
+            new Thread(runnable1).start();
+            try {
+                Thread.sleep(1000); // freeze ui thread until bg thread complete its work
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            chatBoxes = runnable1.chatBoxes;
+        }
+
+        // save that data to local db
+        app.storedInfoSharedPreferences.saveAll(chatBoxes,sp);
+
+        // notify adapter for changes
         adapter.submitList(chatBoxes);
         Log.i("Messages array size", String.valueOf(chatBoxes.size())); // show arraylist size
 
+        // set callback from  ChatBoxAdapter object back to MainActivity object (this way one class [ChatBoxAdapter] calls function of another class[MainActivity]
+        // usually after it completed some work and notify the other class about it .
         adapter.callback = this;
 
         // deal with other objects
@@ -54,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUt
         final EditText editText = findViewById(R.id.editText);
 
 
-        // set click lister on button object
+        // adding objects
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,17 +99,23 @@ public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUt
                     Toast.makeText(getApplicationContext(),TextEmpty,Toast.LENGTH_LONG).show();
                 }
                 else{
-                    ChatBox cb = new ChatBox(result);
+                    ChatBox cb = new ChatBox(result,ts);
+                    // add object to local db
                     chatBoxes.add(cb);
+                    app.storedInfoSharedPreferences.saveAll(chatBoxes,sp);
+
+                    // notify adapter
                     adapter.notifyDataSetChanged();
                     editText.setText("");
-                    app.storedInfo.saveAll(chatBoxes,sp);
+
+                    // add object to remote db
+                    app.storedInfoFireStore.add(cb);
                 }
             }
         });
     }
 
-
+    // deleting objects
     @Override
     public void onChatBoxClick(final ChatBox cb) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder((MainActivity)this);
@@ -82,9 +124,14 @@ public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUt
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                // delete from local db
                 chatBoxes.remove(cb);
                 adapter.notifyDataSetChanged();
                 dialog.cancel();
+                app.storedInfoSharedPreferences.saveAll(chatBoxes,sp);
+
+                // delete from remote db
+                app.storedInfoFireStore.delete(cb);
             }
         });
 //        alertDialog.show();

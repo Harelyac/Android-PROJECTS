@@ -23,7 +23,7 @@ public class ChatBoxRecyclerUtils {
 
         @Override
         public boolean areContentsTheSame(@NonNull ChatBox cb1, @NonNull ChatBox cb2) {
-            return cb1.getText().equals(cb2.getText());
+            return cb1.getContent().equals(cb2.getContent());
         }
     }
 
@@ -68,7 +68,7 @@ public class ChatBoxRecyclerUtils {
         @Override
         public void onBindViewHolder(@NonNull ChatBoxHolder ChatBoxHolder, int position) {
             ChatBox ChatBox = getItem(position);
-            ChatBoxHolder.text.setText(ChatBox.getText());
+            ChatBoxHolder.text.setText(ChatBox.getContent());
         }
     }
 
