@@ -4,12 +4,10 @@ import android.app.Application;
 
 public class SelfChatApp extends Application {
 
-    public StoredInfoSharedPreferences storedInfoSharedPreferences;
-    public StoredInfoFireStore storedInfoFireStore;
+    public DataManager dataManager;
 
     public void onCreate() {
      super.onCreate();
-     storedInfoSharedPreferences = new StoredInfoSharedPreferences();
-     storedInfoFireStore = new StoredInfoFireStore();
+     dataManager = new DataManager();
     }
 }

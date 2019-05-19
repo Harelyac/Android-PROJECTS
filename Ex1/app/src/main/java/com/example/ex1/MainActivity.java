@@ -1,8 +1,11 @@
 package com.example.ex1;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUt
     String TextEmpty = "you can't send an empty message, oh silly!";
     SharedPreferences sp;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,44 +47,41 @@ public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUt
         app = (SelfChatApp) getApplicationContext();
         sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-
         // deal with recycle object
         RecyclerView recyclerView = findViewById(R.id.chatBox_Recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
-
-        // only execute on first launch
-        if (savedInstanceState == null){
-            // read and retrieve data from remote db -> add it to runnable and run it via bg thread
-            RunnableWork runnable = new RunnableWork(app);
-            new Thread(runnable).start();
-            try {
-                Thread.sleep(3000); // freeze ui thread until bg thread complete its work
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            chatBoxes = runnable.chatBoxes;
+        // check if it's just orientation change or first launch
+        if (savedInstanceState == null)
+        {
+            // read from remote db into live data
+            app.dataManager.read();
         }
-        // after change configuration for ex. change orientation
-        else{
-            // read from sp -> local db
-            RunnableWork1 runnable1 = new RunnableWork1(sp,app);
-            new Thread(runnable1).start();
-            try {
-                Thread.sleep(1000); // freeze ui thread until bg thread complete its work
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            chatBoxes = runnable1.chatBoxes;
+        else
+        {
+            // read from local db into live data
+            app.dataManager.readLocal(sp);
         }
 
-        // save that data to local db
-        app.storedInfoSharedPreferences.saveAll(chatBoxes,sp);
+        // get the live data object
+        LiveData<ArrayList<ChatBox>> livedata = app.dataManager.getItemsLiveData();
 
-        // notify adapter for changes
-        adapter.submitList(chatBoxes);
-        Log.i("Messages array size", String.valueOf(chatBoxes.size())); // show arraylist size
+        // observe the live data
+        livedata.observe(this, new Observer<ArrayList<ChatBox>>() {
+            @Override
+            public void onChanged(@Nullable ArrayList<ChatBox> chatBoxes) {
+                // update local db --> shared preferences
+                app.dataManager.updateLocal(sp);
+
+                // notify adapter for changes
+                adapter.submitList(chatBoxes);
+
+                // show array list size
+                Log.i("Messages array size", String.valueOf(chatBoxes.size()));
+            }
+        });
+
 
         // set callback from  ChatBoxAdapter object back to MainActivity object (this way one class [ChatBoxAdapter] calls function of another class[MainActivity]
         // usually after it completed some work and notify the other class about it .
@@ -88,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUt
         // deal with other objects
         Button button = findViewById(R.id.button);
         final EditText editText = findViewById(R.id.editText);
-
 
         // adding objects
         button.setOnClickListener(new View.OnClickListener() {
@@ -100,16 +101,11 @@ public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUt
                 }
                 else{
                     ChatBox cb = new ChatBox(result,ts);
-                    // add object to local db
-                    chatBoxes.add(cb);
-                    app.storedInfoSharedPreferences.saveAll(chatBoxes,sp);
+                    app.dataManager.add(cb);
 
                     // notify adapter
                     adapter.notifyDataSetChanged();
                     editText.setText("");
-
-                    // add object to remote db
-                    app.storedInfoFireStore.add(cb);
                 }
             }
         });
@@ -124,14 +120,9 @@ public class MainActivity extends AppCompatActivity implements ChatBoxRecyclerUt
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // delete from local db
-                chatBoxes.remove(cb);
+                app.dataManager.delete(cb);
                 adapter.notifyDataSetChanged();
                 dialog.cancel();
-                app.storedInfoSharedPreferences.saveAll(chatBoxes,sp);
-
-                // delete from remote db
-                app.storedInfoFireStore.delete(cb);
             }
         });
 //        alertDialog.show();
