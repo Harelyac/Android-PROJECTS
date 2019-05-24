@@ -10,13 +10,27 @@ public class ChatBox implements Parcelable {
     private String content;
     private int id;
     private Date timestamp;
+    private String model;
+    private String manufactor;
     public static int idCounter = 0;
 
-    public ChatBox(String content, Timestamp timestamp) {
 
+    public ChatBox(String content, Timestamp timestamp,String model, String manufactor) {
         this.content = content;
         this.id = ++idCounter;
         this.timestamp = timestamp;
+        this.model = model;
+        this.manufactor = manufactor;
+    }
+
+
+    public String getModel() {
+        return model;
+    }
+
+
+    public String getManufactor() {
+        return manufactor;
     }
 
     public ChatBox(){
@@ -27,26 +41,14 @@ public class ChatBox implements Parcelable {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Date getTimestamp() {
         return timestamp;
     }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
 
 
     private ChatBox(Parcel in) {

@@ -110,8 +110,6 @@ class DataManager {
             public void run() {
                 Gson gson = new Gson();
                 ArrayList<ChatBox> chatBoxes = new ArrayList<ChatBox>();
-                String idCounterAsJson = sp.getString("my_id", null);
-                ChatBox.idCounter = gson.fromJson(idCounterAsJson, int.class);
                 String chatBoxesAsJson = sp.getString("my_key", null);
                 chatBoxes = gson.fromJson(chatBoxesAsJson, new TypeToken<ArrayList<ChatBox>>() {
                 }.getType());
