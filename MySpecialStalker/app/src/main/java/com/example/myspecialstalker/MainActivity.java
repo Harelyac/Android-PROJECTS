@@ -1,6 +1,8 @@
 package com.example.myspecialstalker;
 import android.Manifest;
+import android.app.PendingIntent;
 import android.arch.lifecycle.Observer;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -162,13 +164,27 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void sendSms (String OutgoingPhoneNumber) {
+
+        // sends two pending intents to two custome services by giving them the permission to update
+        // push notification bar
+        Intent sentIntent = new Intent(MainActivity.this, SentCustomeService.class);
+        sentIntent.putExtra("Channel",CallBroadCastReceiver.CHANNEL_ID);
+        sentIntent.putExtra("notification", CallBroadCastReceiver.NOTIFICATION_ID);
+        PendingIntent sentService =  PendingIntent.getService(MainActivity.this,1,sentIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent deliveryIntent = new Intent(MainActivity.this, DeliveryCustomeService.class);
+        deliveryIntent.putExtra("Channel",CallBroadCastReceiver.CHANNEL_ID);
+        deliveryIntent.putExtra("notification", CallBroadCastReceiver.NOTIFICATION_ID);
+        PendingIntent deliveryService = PendingIntent.getService(MainActivity.this,2,deliveryIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // cool! , the pending intent will be broadcast when sms status changes accordingly :)
         SmsManager.getDefault().sendTextMessage(
                 sTarget,
                 null,
                 sContent + " " + OutgoingPhoneNumber,
-                null,
-                null);
-    }
+                sentService,
+                deliveryService);
 
+    }
 }
 
