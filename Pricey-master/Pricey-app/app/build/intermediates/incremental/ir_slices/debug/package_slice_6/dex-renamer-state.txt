@@ -1,0 +1,4 @@
+#Tue Apr 16 01:57:44 IDT 2019
+base.0=D\:\\AndroidProjects\\Pricey\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\6
+path.0=classes.dex
+renamed.0=classes.dex

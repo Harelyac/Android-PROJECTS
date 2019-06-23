@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "778159135289",
+    "firebase_url": "https://pricey-app.firebaseio.com",
+    "project_id": "pricey-app",
+    "storage_bucket": "pricey-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778159135289:android:eeecad545838c5a4",
+        "android_client_info": {
+          "package_name": "com.dima_dima.pricey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "778159135289-j04kkndvvhbg7hs3ah612hefmfdt9c0p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbGBHYvx9evKMVs20CrJSiUVc51pH7hbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "778159135289-j04kkndvvhbg7hs3ah612hefmfdt9c0p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778159135289:android:68cc4ac9148ac441",
+        "android_client_info": {
+          "package_name": "com.example.pricey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "778159135289-j04kkndvvhbg7hs3ah612hefmfdt9c0p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbGBHYvx9evKMVs20CrJSiUVc51pH7hbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "778159135289-j04kkndvvhbg7hs3ah612hefmfdt9c0p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778159135289:android:09546560b4505797",
+        "android_client_info": {
+          "package_name": "com.google.firebase.samples.apps.mlkit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "778159135289-j04kkndvvhbg7hs3ah612hefmfdt9c0p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbGBHYvx9evKMVs20CrJSiUVc51pH7hbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "778159135289-j04kkndvvhbg7hs3ah612hefmfdt9c0p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

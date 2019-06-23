@@ -1,0 +1,13 @@
+1 pro and 1 con for each implementation : 
+
+a.
+
+pro - less stress on server with less http requests. 
+
+con - if we take into account that token is changing as was mentioned about 'oauth 2.0' there is a possiblity that our 'saved' token will become invalidated and we wont know it.
+
+b.
+
+pro - again give us kind of more secure approach, as each launch we get different token to identify with in front of the server and not using the same token over and over again
+
+con - a lot of http requests 'just' for security issue.  
