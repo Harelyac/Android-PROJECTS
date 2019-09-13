@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "892965158454",
+    "firebase_url": "https://starter-f689f.firebaseio.com",
+    "project_id": "starter-f689f",
+    "storage_bucket": "starter-f689f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892965158454:android:050b30dd8f103165e56297",
+        "android_client_info": {
+          "package_name": "com.google.firebase.codelab.mlkit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "892965158454-0god70r250o2eujn1vlttjitpprfm353.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN5azxPcXk_Oz2pNQmYkbhqBPe0vrXDck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "892965158454-0god70r250o2eujn1vlttjitpprfm353.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
